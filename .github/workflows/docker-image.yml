@@ -1,0 +1,41 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Clone repository
+      run: git clone https://github.com/odysseusmax/animated-lamp.git
+      
+    - name: Change directory
+      run: cd animated-lamp
+
+    - name: Create and activate virtual environment
+      run: |
+        python3 -m venv venv
+        source venv/bin/activate
+
+    - name: Install dependencies
+      run: |
+        source venv/bin/activate
+        pip3 install -U -r requirements.txt
+
+    # Opcional: Añade un paso para ejecutar tests si los tienes
+    - name: Run tests
+      run: |
+        source venv/bin/activate
+        python -m pytest
